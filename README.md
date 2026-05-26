@@ -4,9 +4,18 @@
 
 This project uses a real-world customer dataset to understand customer churn and predict whether a customer is likely to leave a company.
 
-Customer churn happens when a customer stops using a company's service. Predicting churn is important because keeping existing customers is usually cheaper than finding new ones.
+Customer churn happens when customers stop using a company's services. Predicting churn is important because keeping existing customers is often cheaper than acquiring new ones.
 
-The goal of this project is not only to build a machine learning model, but also to understand the full workflow of a real ML project step by step — from loading raw data to evaluating model performance.
+The goal of this project is not only to build a machine learning model but also to understand and practice the complete workflow of a real machine learning project step by step.
+
+The project follows the process from:
+
+- Loading raw data
+- Data exploration
+- Data preprocessing
+- Model training
+- Model evaluation
+- Project organization
 
 ---
 
@@ -16,12 +25,11 @@ Dataset used:
 
 **Telco Customer Churn Dataset (Kaggle)**
 
-The dataset contains information about customers such as:
+The dataset contains customer information such as:
 
 - Customer demographics
-- Services being used
+- Internet services
 - Contract type
-- Internet service
 - Payment methods
 - Monthly charges
 - Total charges
@@ -38,213 +46,149 @@ Can customer information and service usage help predict whether a customer will 
 
 ---
 
-# Project Progress
+## Project Structure
+
+```text
+customer-churn-prediction/
+│
+├── data/
+│   └── raw/
+│       └── archive/
+│           └── WA_Fn-UseC_-Telco-Customer-Churn.csv
+│
+├── src/
+│   ├── data_preprocessing.py
+│   ├── train_model.py
+│   └── evaluate_model.py
+│
+├── eda.ipynb
+├── README.md
+└── .gitignore
+```
+
+### Folder Explanation
+
+**data/**
+
+Contains the raw dataset used in the project.
+
+**src/data_preprocessing.py**
+
+Cleans and preprocesses the dataset:
+
+- Converts TotalCharges to numeric
+- Removes missing values
+- Removes customerID
+- Converts labels
+- Performs one-hot encoding
+- Creates X and y
+
+**src/train_model.py**
+
+Responsible for:
+
+- Loading data
+- Splitting train and test data
+- Scaling features
+- Training Logistic Regression
+
+**src/evaluate_model.py**
+
+Responsible for:
+
+- Accuracy calculation
+- Confusion Matrix
+- Classification Report
+
+**eda.ipynb**
+
+Contains:
+
+- Exploratory Data Analysis
+- Visualizations
+- Experiments
+- Learning notes
 
 ---
 
+## Project Progress
+
 ## Stage 1 — Data Loading and First Exploration ✔
 
-In this stage I started by loading the dataset and getting a first understanding of the data.
-
-Steps completed:
+Completed:
 
 - Loaded dataset with Pandas
 - Checked dataset size
 - Viewed first rows
 - Checked data types
 - Looked for missing values
-- Generated basic statistics
+- Generated statistics
 
 Purpose:
 
-Before building any model, it is important to understand what the data looks like and whether there are any obvious problems.
+Understand the dataset before building any model.
 
 ---
 
 ## Stage 2 — Exploratory Data Analysis (EDA) ✔
 
-In this stage I explored the relationship between customer information and churn.
-
-Visualizations created:
+Completed:
 
 - Churn distribution
-- Contract type vs Churn
-- Internet service vs Churn
-- Payment method vs Churn
+- Contract type analysis
+- Internet service analysis
+- Payment method analysis
 - Correlation analysis
-- Customer charge patterns
 
-Main observations:
+Main findings:
 
-### Contract type
-
-Customers with month-to-month contracts had the highest churn rate.
-
-Customers with one-year and two-year contracts were more likely to stay.
-
-Possible explanation:
-
-Long-term contracts may increase customer stability and reduce churn.
-
----
-
-### Internet service
-
-Customers using Fiber Optic internet showed higher churn rates.
-
-Customers without internet service had the lowest churn rate.
-
-Possible explanation:
-
-Fiber users may have higher expectations regarding price or service quality.
-
----
-
-### Payment methods
-
-Customers using Electronic Check showed noticeably higher churn.
-
-Automatic payment methods had lower churn rates.
-
-Possible explanation:
-
-Customers with automatic payments may have more stable subscriptions.
-
----
-
-### Correlation analysis
-
-Some interesting relationships appeared:
-
-- Tenure had a negative relationship with churn
-- Monthly charges had a weak positive relationship with churn
-- Total charges had a weak negative relationship with churn
-
-Meaning:
-
-Customers who stay longer generally churn less.
+- Month-to-month contracts showed higher churn
+- Fiber optic users showed higher churn
+- Electronic check users showed higher churn
+- Longer customer tenure reduced churn
 
 ---
 
 ## Stage 3 — Data Cleaning and Preprocessing ✔
 
-Raw data cannot directly be used for machine learning, so preprocessing was necessary.
+Completed:
 
-Steps completed:
+- Converted TotalCharges to numeric
+- Removed missing values
+- Removed customerID
+- Converted target labels
+- Applied one-hot encoding
 
-### Converted TotalCharges
-
-Converted values to numeric format:
-
-```python
-pd.to_numeric()
-```
-
-Reason:
-
-Some values were stored as text.
-
----
-
-### Missing values
-
-Found missing values:
-
-```text
-TotalCharges → 11 missing values
-```
-
-Removed missing rows:
-
-```python
-dropna()
-```
-
-Reason:
-
-Machine learning models cannot work with missing values.
-
----
-
-### Removed customerID
-
-Removed:
-
-```text
-customerID
-```
-
-Reason:
-
-Customer IDs do not contain useful information for prediction.
-
----
-
-### Converted target labels
-
-Converted:
-
-```text
-No → 0
-Yes → 1
-```
-
-Reason:
-
-Machine learning models work with numbers.
-
----
-
-### One-hot encoding
-
-Applied:
-
-```python
-pd.get_dummies()
-```
-
-Reason:
-
-Machine learning models cannot understand text categories directly.
-
-Dataset after preprocessing:
+Final dataset:
 
 Rows:
 
-```text
 7032
-```
 
 Features:
 
-```text
 30
-```
 
 ---
 
 ## Stage 4 — Model Training ✔
 
-For the first model I used Logistic Regression.
+Model used:
 
-Steps:
+Logistic Regression
 
-- Split dataset into training and testing data
-- Applied feature scaling
-- Trained Logistic Regression model
+Completed:
 
-Train-test split:
+- Train/Test split
+- Feature scaling
+- Model training
+
+Train/Test split:
 
 ```python
 test_size=0.2
 random_state=42
 ```
-
-Reason:
-
-Training data teaches the model.
-
-Testing data checks whether the model learned correctly on unseen data.
 
 Feature scaling:
 
@@ -252,15 +196,11 @@ Feature scaling:
 StandardScaler()
 ```
 
-Reason:
-
-Features have different scales and large values can dominate smaller ones.
-
 ---
 
 ## Stage 5 — Model Evaluation ✔
 
-After training the model, I evaluated its performance.
+Results:
 
 Accuracy:
 
@@ -283,22 +223,48 @@ Recall (Churn): 0.52
 F1-score (Churn): 0.56
 ```
 
-Result interpretation:
+Interpretation:
 
-The model performs reasonably well overall.
+The model performs reasonably well but still misses several customers that actually churn.
 
-The model predicts customers who stay quite well, but it still misses many customers who actually leave.
+---
 
-This means there is still room for improvement.
+## Stage 6 — Recall Improvement and ROC Analysis ✔
 
-Possible future improvements:
+Completed:
 
-- Random Forest
-- Decision Tree
-- XGBoost
-- Hyperparameter tuning
-- Feature importance analysis
-- Improve recall score
+- Probability prediction
+- Threshold tuning
+- ROC curve analysis
+- AUC score calculation
+
+Results:
+
+AUC Score:
+
+```text
+0.832
+```
+
+Observation:
+
+The model can distinguish customers reasonably well and performs much better than random guessing.
+
+---
+
+## Stage 7 — Project Organization and GitHub Cleanup ✔
+
+Completed:
+
+- Created src folder
+- Moved preprocessing code
+- Moved training code
+- Moved evaluation code
+- Improved project structure
+
+Purpose:
+
+Make the repository cleaner and more professional.
 
 ---
 
@@ -318,16 +284,16 @@ Possible future improvements:
 
 ## Current Status
 
-Stage 1 ✔
+Completed:
 
-Stage 2 ✔
-
-Stage 3 ✔
-
-Stage 4 ✔
-
-Stage 5 ✔
+✔ Stage 1  
+✔ Stage 2  
+✔ Stage 3  
+✔ Stage 4  
+✔ Stage 5  
+✔ Stage 6  
+✔ Stage 7  
 
 Current step:
 
-Preparing model improvements and model comparison.
+Preparing model comparison and future improvements.
