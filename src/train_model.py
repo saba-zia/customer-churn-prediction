@@ -1,4 +1,5 @@
 import pandas as pd
+from feature_importance import show_feature_importance
 from evaluate_model import evaluate_model
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -32,6 +33,10 @@ evaluate_model(
     model,
     X_test_scaled,
     y_test
+)
+show_feature_importance(
+    model,
+    X
 )
 
 print("Training finished successfully")
