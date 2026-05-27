@@ -2,19 +2,14 @@ import pandas as pd
 
 
 def show_feature_importance(model, X):
+    importance_df = pd.DataFrame({
+        "Feature": X.columns,
+        "Importance": model.feature_importances_
+    })
 
-    importance = pd.DataFrame(
-        {
-            "Feature": X.columns,
-            "Importance": model.coef_[0]
-        }
-    )
-
-    importance = importance.sort_values(
+    importance_df = importance_df.sort_values(
         by="Importance",
         ascending=False
     )
 
-    print(
-        importance.head(10)
-    )
+    print(importance_df.head(10))
