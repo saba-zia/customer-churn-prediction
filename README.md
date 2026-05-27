@@ -1,3 +1,8 @@
+## Live Demo
+
+Try the deployed application here:
+
+https://customer-churn-prediction-saba.streamlit.app
 # Customer Churn Prediction
 
 ## Project Overview
